@@ -10,11 +10,11 @@ from sklearn.ensemble import RandomForestClassifier
 # TODO: add necessary import
 
 # TODO: implement the first test. Change the function name and input as needed
-def test_inference_return_type(trained_model, example_data):
+def test_inference_return_type(trained_model):
     """
     Test that inference returns a numpy array (which is the expected type).
     """
-    X_train, _ = example_data
+    X_train, _ = trained_model
     preds = inference(trained_model, X_train)
     
 
