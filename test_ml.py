@@ -39,7 +39,9 @@ def compute_model_metrics(y_true, y_pred):
 
 # TODO: implement the third test. Change the function name and input as needed
 
-def is_it_rf():
+
+@pytest.fixture
+def trained_model():
     """
     Check if trained model uses random forest
     """
