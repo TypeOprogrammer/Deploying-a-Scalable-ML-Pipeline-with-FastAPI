@@ -1,61 +1,41 @@
 import pytest
-from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_score
-from ml.model import train_model
-import numpy as np
-from ml.model import inference  
+from ml.data import process_data
+from ml.model import train_model, compute_model_metrics
 from sklearn.ensemble import RandomForestClassifier
+import numpy as np
 
-
-
-# TODO: add necessary import
-
-# TODO: implement the first test. Change the function name and input as needed
-def test_inference_return_type(trained_model):
+# Test 1: Check if process_data returns the expected type for X and y
+def test_process_data():
     """
-    Test that inference returns a numpy array (which is the expected type).
+    Test function returns numpy arrays for X and y.
     """
-    X_train, _ = trained_model
-    preds = inference(trained_model, X_train)
-    
+    # Dummy data 
+    X = np.array([[1, 2], [3, 4]])
+    y = np.array([0, 1])
+    X_processed, y_processed, _, _ = process_data(X, categorical_features=[], label=None, training=True)
+    assert isinstance(X_processed, np.ndarray), "X should be a numpy array"
+    assert isinstance(y_processed, np.ndarray), "y should be a numpy array"
 
-    
-    
-    assert isinstance(preds, np.ndarray), "Inference should return a numpy array."
-    assert preds.ndim == 1, "The predictions array should be 1-dimensional."
-
-
-# TODO: implement the second test. Change the function name and input as needed
-
+# Test 2: Check if the model is a RandomForestClassifier
+def test_train_model():
     """
-    # Compute metrics for model performance
-    """
-def compute_model_metrics(y_true, y_pred):
-    accuracy = accuracy_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred, zero_division=1)
-    recall = recall_score(y_true, y_pred, zero_division=1)
-    f1 = f1_score(y_true, y_pred, zero_division=1)
-    return accuracy, precision, recall, f1
-
-
-# TODO: implement the third test. Change the function name and input as needed
-
-
-@pytest.fixture
-def trained_model():
-    """
-    Check if trained model uses random forest
+    Test if the trained model is a RandomForestClassifier.
     """
     
-    X_train = np.random.rand(75, 5)
-    y_train = np.random.randint(0, 2, 75)
-    
+    X_train = np.array([[1, 2], [3, 4]])
+    y_train = np.array([0, 1])
     model = train_model(X_train, y_train)
+    assert isinstance(model, RandomForestClassifier), "Model is RandomForestClassifier"
+
+# Test 3: Check if compute_model_metrics returns valid float values for precision, recall, and F1
+def test_compute_model_metrics():
+    """
+    Test if compute_model_metrics returns precision, recall, and F1 as floats.
+    """
     
-    #returns false if model is not random forest
-    assert isinstance(model, RandomForestClassifier), "False"
-
-
-
-
-
-
+    y_true = np.array([0, 1])
+    y_pred = np.array([0, 1])
+    precision, recall, fbeta = compute_model_metrics(y_true, y_pred)
+    assert isinstance(precision, float), "Float"
+    assert isinstance(recall, float), "Float"
+    assert isinstance(fbeta, float), "Float"
