@@ -58,3 +58,21 @@ def test_compute_model_metrics():
     assert 0 <= precision <= 1
     assert 0 <= recall <= 1
     assert 0 <= fbeta <= 1
+
+
+def test_train_model():
+    """
+    Test train_model function
+    """
+
+    X_train = np.random.rand(20, 5)  
+    y_train = np.random.randint(2, size=20)  
+
+    
+    model = train_model(X_train, y_train)
+
+    
+    assert isinstance(model, RandomForestClassifier)
+
+    #double check model has been trained
+    assert hasattr(model, "predict")
