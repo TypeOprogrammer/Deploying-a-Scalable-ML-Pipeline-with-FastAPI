@@ -35,6 +35,26 @@ def test_inference():
 
     # 
     #assert len(y_preds) > 0, "empty"
-    #assert all(isinstance(pred, (int, float)) for pred in y_preds), "All predictions should be numerical values"
+    #assert all(isinstance(pred, (int, float)) for pred in y_preds), "All should be numerical values"
 
 
+def test_compute_model_metrics():
+    """
+    Test compute_model_metrics
+    """
+    #to test range
+    y_true = [1, 1, 0]
+    y_preds = [0, 1, 1]
+
+    
+    precision, recall, fbeta = compute_model_metrics(y_true, y_preds)
+
+    
+    assert isinstance(precision, float)
+    assert isinstance(recall, float)
+    assert isinstance(fbeta, float)
+
+    #  metrics should be within range [0, 1]
+    assert 0 <= precision <= 1
+    assert 0 <= recall <= 1
+    assert 0 <= fbeta <= 1
